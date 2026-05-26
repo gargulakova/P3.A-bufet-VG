@@ -1,78 +1,217 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-<meta charset="UTF-8">
-<title>Objednávka školního bufetu</title>
-<style>
-body {
- font-family: Arial, sans-serif;
- background: #f4f7fb;
-}
-h1 {
- text-align: center;
- background: #2a72d4;
- color: white;
- padding: 20px;
-}
-.container {
- width: 90%;
- max-width: 500px;
- margin: 30px auto;
- background: white;
- padding: 25px;
- border-radius: 12px;
-}
-.item {
- display: flex;
- justify-content: space-between;
- margin: 12px 0;
- font-size: 18px;
-}
-input[type="number"], input[type="text"], input[type="tel"] {
- width: 100%;
- padding: 8px;
- margin-top: 5px;
- border-radius: 6px;
- border: 1px solid #ccc;
-}
-label {
- font-weight: bold;
- margin-top: 15px;
- display: block;
-}
-#celkem, #pocet {
- text-align: center;
- font-size: 22px;
- margin-top: 15px;
- font-weight: bold;
- color: #2a72d4;
-}
-button {
- width: 100%;
- padding: 15px;
- margin-top: 30px;
- font-size: 24px;
- background: #ff6b35;
- color: white;
- border: none;
- border-radius: 10px;
- cursor: pointer;
-}
-button:hover {
- background: #e85a28;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SŠ Kostka – OBJEDNÁVKY BUFET</title>
+    <style>
+        /* Jednoduchý styling, aby to vypadalo jako na tvých obrázcích */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            background-color: #2b78e4;
+            color: white;
+            width: 100%;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-top: 30px;
+            width: 90%;
+            max-width: 500px;
+        }
+        .summary-info {
+            text-align: center;
+            color: #2b78e4;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .summary-info div {
+            margin: 5px 0;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .item-label {
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .item-input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            color: #333;
+        }
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+        .submit-btn {
+            background-color: #ff6f3c;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background-color: #e55e2b;
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 20px 0;
+        }
+    </style>
 </head>
-
 <body>
-<h1>SŠ Kostka – OBJEDNÁVKY BUFET</h1>
 
-<div class="container">
+    <div class="header">
+        SŠ Kostka – OBJEDNÁVKY BUFET
+    </div>
 
-  <div id="items"></div>
+    <div class="container">
+        <form id="orderForm">
+            
+            <div class="summary-info">
+                <div>Celková cena: <span id="totalPrice">0</span> Kč</div>
+                <div>Počet kusů: <span id="totalItems">0</span></div>
+            </div>
 
-  <div id="celkem">Celková cena: 0 Kč</div>
-  <div id="pocet">Počet kusů: 0</div>
+            <div class="item-row">
+                <span class="item-label">Sendvič (45 Kč)</span>
+                <input type="number" class="item-input" data-price="45" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Párek v rohlíku (35 Kč)</span>
+                <input type="number" class="item-input" data-price="35" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Jablko (15 Kč)</span>
+                <input type="number" class="item-input" data-price="15" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Banán (26 Kč)</span>
+                <input type="number" class="item-input" data-price="26" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Mrkev (kus) (5 Kč)</span>
+                <input type="number" class="item-input" data-price="5" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Tatranka (18 Kč)</span>
+                <input type="number" class="item-input" data-price="18" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Pomeranč (kus) (10 Kč)</span>
+                <input type="number" class="item-input" data-price="10" value="0" min="0">
+            </div>
+            <div class="item-row">
+                <span class="item-label">Redbull (32 Kč)</span>
+                <input type="number" class="item-input" data-price="32" value="0" min="0">
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label>VAŠE JMÉNO:</label>
+                <input type="text" placeholder="Např. Garguláková Vendula" required>
+            </div>
+
+            <div class="form-group">
+                <label>TELEFON:</label>
+                <input type="tel" placeholder="+420 773 206 098" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Odeslat objednávku</button>
+
+        </form>
+    </div>
+
+    <script>
+        // Výběr všech inputů pro množství
+        const inputs = document.querySelectorAll('.item-input');
+        const totalPriceEl = document.getElementById('totalPrice');
+        const totalItemsEl = document.getElementById('totalItems');
+        const form = document.getElementById('orderForm');
+
+        // Funkce pro přepočítání ceny a kusů
+        function calculateTotal() {
+            let totalCost = 0;
+            let totalCount = 0;
+
+            inputs.forEach(input => {
+                const quantity = parseInt(input.value) || 0;
+                const price = parseInt(input.getAttribute('data-price'));
+
+                totalCost += quantity * price;
+                totalCount += quantity;
+            });
+
+            // Vpsání výsledků do HTML
+            totalPriceEl.textContent = totalCost;
+            totalItemsEl.textContent = totalCount;
+        }
+
+        // Naslouchání na změnu hodnoty v jakémkoliv inputu
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotal);
+            // Kdyby se klikalo na šipky nahoru/dolů
+            input.addEventListener('change', calculateTotal); 
+        });
+
+        // Ošetření odeslání formuláře (vypíše alert s potvrzením)
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Objednávka byla úspěšně odeslána! Celková cena: ' + totalPriceEl.textContent + ' Kč.');
+        });
+    </script>
+
+</body>
+</html>
 
   <!-- ✅ NOVÁ POLE – zákazník musí vyplnit -->
   <label>VAŠE JMÉNO:</label>
